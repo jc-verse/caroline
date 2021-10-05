@@ -47,7 +47,7 @@ Some operations are:
 Any function with two parameters can be used as a binary operator.
 
 ```
-squaresum ∈ (Num, Num) => Num;
+squaresum ∈ (Num, Num) -> Num;
 squaresum := (a, b) => a^2 + b^2;
 
 c := 1 squaresum 2; // c = 5
@@ -56,7 +56,7 @@ c := 1 squaresum 2; // c = 5
 Note the implication: you can create _any_ kind of custom binary operator.
 
 ```
-|> ∈ (T, U) => ((T, (T) => U) => U);
+|> ∈ (T, U) => ((T, (T) -> U) -> U);
 |> := (val, f) => f(val);
 a = 2 |> exp |> cos; // a = 0.448356
 ```
@@ -79,7 +79,7 @@ a ∈ Seq := i => i^2; // a = 0, 1, 4, 9, 16, ...
 **Sequences are functions.** More specifically, a sequence is defined as
 
 ```
-Seq := (T) => ((Num) => T);
+Seq := (T) => ((Num) -> T);
 ```
 
 where the only parameter is the subscript. Unlike vectors, sequences contain an infinite number of items. `a_i` is just a syntax sugar to `a(i)` as in a function. For collections of finite number of objects, use vectors.
@@ -118,8 +118,8 @@ In mathematics, parameters used in functions often appear like currying to me. F
 Angle brackets and round brackets can be used interchangeably to denote function call—I recommended that the angle brackets be used to pass parameters to functions that return a function, while round brackets are for functions that return a value.
 
 ```
-Expr := (Num) => Num;
-sum ∈ (Num, Num) => (Expr => Num);
+Expr := (Num) -> Num;
+sum ∈ (Num, Num) -> (Expr -> Num);
 sum := (i, j) => {
     return (f) => {
         s := 0;
@@ -134,8 +134,8 @@ a := sum<1, 10>(x => x^2); // a = 385
 ```
 
 ```
-Operator := (Num, Num) => Num;
-powersum ∈ (Num => Operator);
+Operator := (Num, Num) -> Num;
+powersum ∈ Num -> Operator;
 powersum := (n) => {
     return (a, b) => a^n + b^n;
 }
