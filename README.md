@@ -16,7 +16,8 @@ This is a language mainly used for algorithms and maths. The data types are:
 - **Boolean** `true`;
 - **String** `"Hello"`;
 - **Matrix** `((1, 2, 3), (4, 5, 6))` (supports matrix operations; vectors are special names for n×1 or 1×n matrices);
-- **Function**.
+- **Function**;
+- **Type**. Yes, types are data types themselves.
 
 ## Arithmetic
 
@@ -25,10 +26,11 @@ Apart from the typical integer and decimal types, number types also include **fr
 Since fractions preserve more precision than decimals, whenever a fraction is involved in an expression, the result will be a fraction. Integers are special fractions with denominator of 1.
 
 ```
-Num a := 1.6;
-Num b := 1/3;
-Num c := a * b; // c = 8/15
-Num d := 1.6 / 3; // d = 8/15
+a, b, c, d ∈ Num; // ∈ is hard to type, I know, libraries can feel free to define ASCII-friendly sets of operator aliases
+a := 1.6;
+b := 1/3;
+c := a * b; // c = 8/15
+d := 1.6 / 3; // d = 8/15
 ```
 
 Some operations are:
@@ -45,29 +47,39 @@ Some operations are:
 Any function with two parameters can be used as a binary operator.
 
 ```
-(Num, Num) => Num squaresum;
+squaresum ∈ (Num, Num) => Num;
 squaresum := (a, b) => a^2 + b^2;
 
-Num c := 1 squaresum 2; // c = 5
+c := 1 squaresum 2; // c = 5
 ```
 
-A number literal followed by a variable is infered to be a multiplication.
+Note the implication: you can create _any_ kind of custom binary operator.
 
 ```
-Num x := 2;
-Num a := 3x^2 + 2x + 1; // a = 17
+|> ∈ (T, U) => ((T, (T) => U) => U);
+|> := (val, f) => f(val);
+a = 2 |> exp |> cos; // a = 0.448356
+```
+
+I'm still deciding on operator priorities. There are certain operators that can't be override for parsing concerns, like `:=`,  `∈`, `=>`, etc.
+
+A number literal followed by a variable is inferred to be a multiplication.
+
+```
+x := 2;
+a := 3x^2 + 2x + 1; // a = 17
 ```
 
 ## Declaring sequences
 
 ```
-Seq a := i => i^2; // a = 0, 1, 4, 9, 16, ...
+a ∈ Seq := i => i^2; // a = 0, 1, 4, 9, 16, ...
 ```
 
 **Sequences are functions.** More specifically, a sequence is defined as
 
 ```
-Type Seq<T> := (Num) => T;
+Seq := (T) => ((Num) => T);
 ```
 
 where the only parameter is the subscript. Unlike vectors, sequences contain an infinite number of items. `a_i` is just a syntax sugar to `a(i)` as in a function. For collections of finite number of objects, use vectors.
@@ -79,8 +91,8 @@ The syntax `i...j` returns an iterator from `i` to `j`, inclusive. This is akin 
 When an iterator is used in the index, it also returns an iterator.
 
 ```
-Seq a := i => i;
-for (Num k in a_(1...3)) {
+a ∈ Seq := i => i;
+for (k in a_(1...3)) {
     print(k); // Out: 1 2 3
 }
 ```
@@ -90,8 +102,8 @@ for (Num k in a_(1...3)) {
 Any typical matrix operation is supported. Moreover mathematical functions treat square matrices the same as numbers.
 
 ```
-Mat a := ((1, 2, 3), (4, 5, 6), (7, 8, 9));
-Mat b := cos(a);
+a ∈ Mat := ((1, 2, 3), (4, 5, 6), (7, 8, 9));
+b := cos(a);
 /*
 b = (( 0.38017732968947, −0.3738301457419 , −0.12783762117329),
      (−0.53120649276402,  0.39010533372492, −0.68858283978612),
@@ -103,20 +115,42 @@ b = (( 0.38017732968947, −0.3738301457419 , −0.12783762117329),
 
 In mathematics, parameters used in functions often appear like currying to me. For example, $\sum_{k=0}^{10}k^2$ is just a function $\sum_{k=0}^{10}$ applied to an expression $k^2$.
 
-I propose the angle brackets be used to pass parameters to functions that return a function, while round brackets are for functions that return a value.
+Angle brackets and round brackets can be used interchangeably to denote function call—I recommended that the angle brackets be used to pass parameters to functions that return a function, while round brackets are for functions that return a value.
 
 ```
-Type Expr := (Num) => Num;
-<Num, Num> => (Expr => Num) sum;
-sum := <i, j> => {
+Expr := (Num) => Num;
+sum ∈ (Num, Num) => (Expr => Num);
+sum := (i, j) => {
     return (f) => {
-        Num s := 0;
-        for (Num x in i...j) {
+        s := 0;
+        for (x in i...j) {
             s += f(x);
         }
         return s;
     }
 }
 
-Num a := sum<1, 10>(x => x^2); // a = 385
+a := sum<1, 10>(x => x^2); // a = 385
+```
+
+```
+Operator := (Num, Num) => Num;
+powersum ∈ (Num => Operator);
+powersum := (n) => {
+    return (a, b) => a^n + b^n;
+}
+a := 2 powersum<3> 3; // a = 35
+```
+
+## Type operations
+
+Types are treated as sets in Caroline. That means, it will allow dependent typing, refinement typing, and all the intuitive manipulations one would apply to values.
+
+```
+Odd = {a: Int | a % 2 != 0};
+Even = {a: Int | a % 2 = 0};
+if (Odd | Even != Int)
+  error("The universe disappears in a bang");
+
+num ∈ Odd := 2; // Error: 2 is not assignable to Odd because 2 % 2 = 0
 ```
