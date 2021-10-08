@@ -1,0 +1,86 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Caroline",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#types"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [{
+        "name": "keyword.control.caroline",
+        "match": "\\b(if|for|return)\\b"
+      }]
+    },
+    "string1": {
+      "name": "string.quoted.double.caroline",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.caroline",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "string2": {
+      "name": "string.quoted.single.caroline",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "name": "constant.character.escape.caroline",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "comment": {
+      "name": "comment.block.caroline",
+      "begin": "{{(?=\\n| )",
+      "end": "(?<=\\n| )}}"
+    },
+    "constants": {
+      "name": "variable.language.caroline",
+      "match": "otherwise"
+    },
+    "numbers": {
+      "name": "constant.numeric.caroline",
+      "match": "[0-9]+"
+    },
+    "operators": {
+      "name": "keyword.operator.arithmetic.caroline",
+      "match": "(?<=\\n| )(:=|=>|∈)(?=\\n| )"
+    },
+    "variables": {
+      "name": "variable.other.object.caroline",
+      "match": "[a-z][A-Za-z]*"
+    },
+    "types": {
+      "name": "entity.name.type.caroline",
+      "match": "[A-Z][A-Za-z]*"
+    }
+  },
+  "scopeName": "source.caroline"
+}

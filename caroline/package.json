@@ -1,0 +1,27 @@
+{
+  "name": "caroline",
+  "displayName": "Caroline",
+  "description": "Syntax highlighting for the Caroline language",
+  "version": "0.0.1",
+  "license": "GPL-3.0",
+  "publisher": "josh-cena",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "caroline",
+      "aliases": ["Caroline", "caroline"],
+      "extensions": [".crln",".carrie",".caroline"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "caroline",
+      "scopeName": "source.caroline",
+      "path": "./syntaxes/caroline.tmLanguage.json"
+    }]
+  }
+}
