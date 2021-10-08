@@ -1,4 +1,4 @@
-# caroline README
+# Caroline
 
 This is the README for your extension "caroline". After writing up a brief description, we recommend including the following sections.
 
