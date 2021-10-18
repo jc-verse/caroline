@@ -2,6 +2,8 @@
 
 A human-readable script language.
 
+Text
+
 ## Design principles
 
 The guiding principle of Caroline is: be as close to mathematical language as possible. It will have much fewer programmatic constructs than typical languages—no first-class class support, no memory allocation details... On the other hand, structures like fractions, sets, and matrices will be natively supported and optimized.

@@ -1,0 +1,11 @@
+{
+  "name": "caroline-parser",
+  "version": "0.0.0",
+  "description": "The parser for the caroline language",
+  "author": "Joshua Chen",
+  "license": "GPL-v3",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^16.11.1"
+  }
+}

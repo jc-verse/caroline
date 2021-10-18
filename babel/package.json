@@ -1,0 +1,10 @@
+{
+  "name": "babel-test",
+  "private": true,
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@babel/parser": "^7.15.8",
+    "@babel/types": "^7.15.6"
+  }
+}

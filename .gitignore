@@ -1,7 +1,5 @@
 node_modules
 .vscode
 dist
-parser/*
-!parser/*.*
 *.lock
 target
